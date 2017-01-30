@@ -3,8 +3,10 @@ package org.equinoxscripts.ojpog.io;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -22,11 +24,10 @@ public class IOUtils {
 				throw new RuntimeException("Bad magic: " + Arrays.toString(tmp));
 	}
 
-	public static ByteBuffer read(File f) {
+	public static ByteBuffer read(InputStream fin) {
 		byte[] buffer = new byte[1024];
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			FileInputStream fin = new FileInputStream(f);
 			while (true) {
 				int s = fin.read(buffer);
 				if (s > 0)
@@ -39,6 +40,15 @@ public class IOUtils {
 			return ByteBuffer.wrap(bos.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public static ByteBuffer read(File f) {
+		try {
+			return read(new FileInputStream(f));
+		} catch (FileNotFoundException e) {
 			return null;
 		}
 	}

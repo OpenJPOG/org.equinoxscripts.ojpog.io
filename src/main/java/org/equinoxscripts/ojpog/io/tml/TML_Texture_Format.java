@@ -1,7 +1,8 @@
 package org.equinoxscripts.ojpog.io.tml;
 
 public enum TML_Texture_Format {
-	RGBA_8888(0, "RGBA_8888"), ARGB_1555(2, "ARGB_1555"), RAW_DDS(6, "DDS"), ARGB_4444(7, "ARGB_4444");
+	RGBA_8888(0, "RGBA_8888"), ARGB_1555(2, "ARGB_1555"), RAW_DDS(6, "DDS"), ARGB_4444(7, "ARGB_4444"), ALPHA_4(9,
+			"ARGB_2222");
 
 	public final String properName;
 	public final short id;

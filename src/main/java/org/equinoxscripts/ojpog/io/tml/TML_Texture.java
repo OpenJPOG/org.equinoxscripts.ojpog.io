@@ -10,10 +10,10 @@ import org.equinoxscripts.ojpog.io.dds.DDS_File;
 
 public class TML_Texture extends Gen_IO {
 	public final int textureID;
-	private ByteBuffer data;
+	public ByteBuffer data;
 
-	public final int unknown1, unknown2, unknown4;
-	public final short unknown3;
+	public int unknown1, unknown2, unknown4;
+	public short unknown3;
 
 	private TML_Texture_Format format;
 	public short width, height;
@@ -71,6 +71,28 @@ public class TML_Texture extends Gen_IO {
 		b.put(data);
 	}
 
+	public void set(TML_Texture src) {
+		this.unknown1 = src.unknown1;
+		this.unknown2 = src.unknown2;
+		this.format = src.format;
+		this.width = src.width;
+		this.height = src.height;
+		this.unknown3 = src.unknown3;
+		this.unknown4 = src.unknown4;
+		this.data = ByteBuffer.allocate(src.data.capacity());
+		this.data.order(src.data.order());
+		src.data.position(0);
+		src.data.limit(src.data.capacity());
+
+		this.data.position(0);
+		this.data.limit(data.capacity());
+		this.data.put(src.data);
+		this.data.position(0);
+		
+		readCache = null;
+		readDDSCache = null;
+	}
+
 	@Override
 	public int length() throws IOException {
 		return 4 * 4 + 2 * 4 + 4 + data.capacity();
@@ -124,9 +146,17 @@ public class TML_Texture extends Gen_IO {
 							| ((data.get(offset + 2) & 0xFF) << 0) | ((data.get(offset + 3) & 0xFF) << 24);
 					break;
 				}
+				case ALPHA_4: {
+					int offset = px / 2;
+					int sip = (px & 1) * 4;
+					int b = data.get(offset) >> sip;
+					int gray = (b & 15) * 0xFF / 15;
+					argb = 0xFFFFFF | (gray << 24);
+					break;
+				}
 				case RAW_DDS:
 				default:
-					throw new UnsupportedOperationException();
+					throw new UnsupportedOperationException("Can't decode " + format);
 				}
 				img.setRGB(x, y, argb);
 			}
