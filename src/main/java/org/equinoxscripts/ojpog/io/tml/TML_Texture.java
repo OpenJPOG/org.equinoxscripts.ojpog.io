@@ -79,15 +79,16 @@ public class TML_Texture extends Gen_IO {
 		this.height = src.height;
 		this.unknown3 = src.unknown3;
 		this.unknown4 = src.unknown4;
-		this.data = ByteBuffer.allocate(src.data.capacity());
-		this.data.order(src.data.order());
-		src.data.position(0);
-		src.data.limit(src.data.capacity());
-
-		this.data.position(0);
-		this.data.limit(data.capacity());
-		this.data.put(src.data);
-		this.data.position(0);
+//		this.data = ByteBuffer.allocate(src.data.capacity());
+//		this.data.order(src.data.order());
+//		src.data.position(0);
+//		src.data.limit(src.data.capacity());
+//
+//		this.data.position(0);
+//		this.data.limit(data.capacity());
+//		this.data.put(src.data);
+//		this.data.position(0);
+		this.data = src.data;
 		
 		readCache = null;
 		readDDSCache = null;
