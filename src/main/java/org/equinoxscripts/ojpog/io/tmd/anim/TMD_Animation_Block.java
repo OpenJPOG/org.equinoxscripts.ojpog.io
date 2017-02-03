@@ -47,7 +47,7 @@ public class TMD_Animation_Block extends TMD_IO {
 		int ol = b.limit();
 		for (int i = 0; i < animations.length; i++) {
 			b.position(pos[i]);
-			b.limit(i < file.header.numNodes - 1 ? pos[i + 1] : ol);
+			b.limit(i < animations.length - 1 ? pos[i + 1] : ol);
 			animations[i].write(b);
 		}
 		b.limit(ol);
