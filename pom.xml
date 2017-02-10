@@ -50,5 +50,9 @@
                         <id>bintray</id>
                         <url>https://api.bintray.com/maven/openjpog/Utilities/org.equinoxscripts.ojpog.io/;publish=1</url>
                 </repository>
+                <snapshotRepository>
+                        <id>bintray</id>
+                        <url>https://api.bintray.com/maven/openjpog/Utilities/org.equinoxscripts.ojpog.io/;publish=1</url>
+                </snapshotRepository>
         </distributionManagement>
 </project>
