@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 
 import org.equinoxscripts.ojpog.io.IOUtils;
 import org.equinoxscripts.ojpog.io.tkl.TKL_File;
+import org.equinoxscripts.ojpog.io.tkl.TKL_Resolver;
+import org.equinoxscripts.ojpog.io.tkl.TKL_Resolver_Basic;
 import org.equinoxscripts.ojpog.io.tmd.anim.TMD_Animation;
 import org.equinoxscripts.ojpog.io.tmd.anim.TMD_Animation_Block;
 import org.equinoxscripts.ojpog.io.tmd.mesh.TMD_DLoD_Block;
@@ -26,20 +28,20 @@ public class TMD_File extends TMD_IO {
 		this(f, IOUtils.read(f));
 	}
 
-	public TMD_File(File f, ByteBuffer data, File tklDirectory) throws IOException {
+	public TMD_File(String source, ByteBuffer data, TKL_Resolver resolver) throws IOException {
 		super(null);
-		this.source = f.getName().substring(0, f.getName().length() - 4);
+		this.source = source;
 		this.file = this;
 		this.header = new TMD_Header_Block(this, data);
 		this.nodes = new TMD_Node_Block(this, data);
 		this.animations = new TMD_Animation_Block(this, data);
 		this.dLoD = new TMD_DLoD_Block(this, data);
-		this.tklRepo = new TKL_File(IOUtils.read(new File(tklDirectory, this.header.category + ".tkl")));
+		this.tklRepo = resolver.resolve(this.header.category);
 		this.link();
 	}
 
 	public TMD_File(File f, ByteBuffer data) throws IOException {
-		this(f, data, f.getParentFile());
+		this(f.getName().substring(0, f.getName().length() - 4), data, new TKL_Resolver_Basic(f.getParentFile()));
 	}
 
 	@Override
