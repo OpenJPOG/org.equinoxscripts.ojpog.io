@@ -5,7 +5,7 @@ jdk:
 deploy:
   skip_cleanup: true
   provider: script
-  script: ./deploy_release.sh
+  script: bash deploy_release.sh
   on:
     tags: true
     all_branches: true
