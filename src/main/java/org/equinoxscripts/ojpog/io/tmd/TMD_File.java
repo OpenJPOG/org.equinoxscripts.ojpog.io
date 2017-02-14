@@ -37,6 +37,8 @@ public class TMD_File extends TMD_IO {
 		this.animations = new TMD_Animation_Block(this, data);
 		this.dLoD = new TMD_DLoD_Block(this, data);
 		this.tklRepo = resolver.resolve(this.header.category);
+		if (this.tklRepo == null)
+			throw new IOException("Failed to resolve the animation repository");
 		this.link();
 	}
 
