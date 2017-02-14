@@ -3,10 +3,12 @@ jdk:
  - oraclejdk8
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: ./deploy_release.sh
   on:
     tags: true
+    all_branches: true
 
 cache:
   directories:
